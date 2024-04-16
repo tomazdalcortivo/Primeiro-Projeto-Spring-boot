@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String email, Long id, String nome, String senha, String telefone) {
+    public Usuario(Long id, String nome, String email, String senha, String telefone) {
         this.email = email;
         this.id = id;
         this.nome = nome;
