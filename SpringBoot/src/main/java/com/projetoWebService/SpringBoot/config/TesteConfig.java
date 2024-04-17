@@ -1,8 +1,10 @@
 package com.projetoWebService.SpringBoot.config;
 
+import com.projetoWebService.SpringBoot.entidades.Categoria;
 import com.projetoWebService.SpringBoot.entidades.Pedido;
 import com.projetoWebService.SpringBoot.entidades.Usuario;
 import com.projetoWebService.SpringBoot.entidades.enums.StatusPedido;
+import com.projetoWebService.SpringBoot.repositorios.RepositorioCategoria;
 import com.projetoWebService.SpringBoot.repositorios.RepositorioPedido;
 import com.projetoWebService.SpringBoot.repositorios.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,19 @@ public class TesteConfig implements CommandLineRunner {
     @Autowired
     private RepositorioPedido repositorioPedido;
 
+    @Autowired
+    private RepositorioCategoria repositorioCategoria;
+
 
     @Override
     public void run(String... args) throws Exception {
+
+        Categoria cat1 = new Categoria(null, "Electronicos");
+        Categoria cat2 = new Categoria(null, "Livros");
+        Categoria cat3 = new Categoria(null, "Computadores");
+
+        repositorioCategoria.saveAll(Arrays.asList(cat1, cat2, cat3));
+
         Usuario u1 = new Usuario(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
         Usuario u2 = new Usuario(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
