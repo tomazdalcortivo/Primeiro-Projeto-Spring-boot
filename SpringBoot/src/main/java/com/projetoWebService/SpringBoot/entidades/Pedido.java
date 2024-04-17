@@ -1,5 +1,6 @@
 package com.projetoWebService.SpringBoot.entidades;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -13,6 +14,8 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant momento;
 
     @ManyToOne
@@ -22,7 +25,7 @@ public class Pedido implements Serializable {
     public Pedido() {
     }
 
-    public Pedido(Usuario cliente, Long id, Instant momento) {
+    public Pedido(Long id, Instant momento, Usuario cliente) {
         this.cliente = cliente;
         this.id = id;
         this.momento = momento;
