@@ -1,5 +1,6 @@
 package com.projetoWebService.SpringBoot.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.projetoWebService.SpringBoot.entidades.PK.ItemPedidoPK;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -13,7 +14,7 @@ import java.util.Objects;
 public class ItemPedido implements Serializable {
 
     @EmbeddedId
-    private ItemPedidoPK id;
+    private ItemPedidoPK id = new ItemPedidoPK();
 
     private Integer quantidade;
     private Double preco;
@@ -21,13 +22,14 @@ public class ItemPedido implements Serializable {
     public ItemPedido() {
     }
 
-    public ItemPedido(Pedido pedido, Produto produto, Double preco, Integer quantidade) {
+    public ItemPedido(Pedido pedido, Produto produto, Integer quantidade, Double preco) {
         id.setPedido(pedido);
         id.setProduto(produto);
         this.preco = preco;
         this.quantidade = quantidade;
     }
 
+    @JsonIgnore
     public Pedido getPedido(){
         return id.getPedido();
     }
@@ -35,7 +37,7 @@ public class ItemPedido implements Serializable {
     public void setPedido(Pedido pedido){
         id.setPedido(pedido);
     }
-
+    @JsonIgnore
     public Produto getProduto(){
         return id.getProduto();
     }

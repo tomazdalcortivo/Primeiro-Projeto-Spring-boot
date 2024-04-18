@@ -1,14 +1,8 @@
 package com.projetoWebService.SpringBoot.config;
 
-import com.projetoWebService.SpringBoot.entidades.Categoria;
-import com.projetoWebService.SpringBoot.entidades.Pedido;
-import com.projetoWebService.SpringBoot.entidades.Produto;
-import com.projetoWebService.SpringBoot.entidades.Usuario;
+import com.projetoWebService.SpringBoot.entidades.*;
 import com.projetoWebService.SpringBoot.entidades.enums.StatusPedido;
-import com.projetoWebService.SpringBoot.repositorios.RepositorioCategoria;
-import com.projetoWebService.SpringBoot.repositorios.RepositorioPedido;
-import com.projetoWebService.SpringBoot.repositorios.RepositorioProduto;
-import com.projetoWebService.SpringBoot.repositorios.RepositorioUsuario;
+import com.projetoWebService.SpringBoot.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TesteConfig implements CommandLineRunner {
 
     @Autowired
     private RepositorioProduto repositorioProduto;
+
+    @Autowired
+    private RepositorioItemPedido repositorioItemPedido;
 
 
     @Override
@@ -69,6 +66,13 @@ public class TesteConfig implements CommandLineRunner {
         Pedido p3 = new Pedido(null, Instant.parse("2019-07-22T15:21:22Z"), StatusPedido.AGUARDANDO_PAGAMENTO, u1);
 
         repositorioPedido.saveAll(Arrays.asList(p1, p2, p3));
+
+        ItemPedido ip1 = new ItemPedido(p1, pr1, 2, pr1.getPreco());
+        ItemPedido ip2 = new ItemPedido(p1, pr3, 1, pr4.getPreco());
+        ItemPedido ip3 = new ItemPedido(p2, pr3, 2, pr1.getPreco());
+        ItemPedido ip4 = new ItemPedido(p3, pr5, 2, pr5.getPreco());
+
+        repositorioItemPedido.saveAll(Arrays.asList(ip1, ip2, ip3, ip4));
 
     }
 }
