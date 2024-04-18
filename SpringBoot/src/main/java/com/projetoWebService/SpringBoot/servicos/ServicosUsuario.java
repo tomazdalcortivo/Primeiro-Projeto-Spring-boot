@@ -3,6 +3,7 @@ package com.projetoWebService.SpringBoot.servicos;
 import com.projetoWebService.SpringBoot.entidades.Usuario;
 import com.projetoWebService.SpringBoot.repositorios.RepositorioUsuario;
 
+import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoRecursosNaoEncontrados;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 //import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class ServicosUsuario {
 
     public Usuario findById(Long id) {
         Optional<Usuario> obj = repositorio.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ExecaoRecursosNaoEncontrados(id));
     }
 
     public Usuario insert(Usuario obj){
