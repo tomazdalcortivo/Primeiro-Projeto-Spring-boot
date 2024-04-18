@@ -1,5 +1,6 @@
 package com.projetoWebService.SpringBoot.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -22,6 +23,9 @@ public class Produto implements Serializable {
     @ManyToMany
     @JoinTable(name = "tb_categoria_produto", joinColumns = @JoinColumn(name = "id_produto"), inverseJoinColumns = @JoinColumn(name = "id_categoria"))
     private Set<Categoria> categorias = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> items = new HashSet<>();
 
     public Produto() {
     }
@@ -76,6 +80,15 @@ public class Produto implements Serializable {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    @JsonIgnore
+    public Set<Pedido> getPedidos() {
+        Set<Pedido> set = new HashSet<>();
+        for (ItemPedido x : items) {
+            set.add(x.getPedido());
+        }
+        return set;
     }
 
     @Override
