@@ -30,22 +30,25 @@ public class ItemPedido implements Serializable {
     }
 
     @JsonIgnore
-    public Pedido getPedido(){
+    public Pedido getPedido() {
         return id.getPedido();
     }
 
-    public void setPedido(Pedido pedido){
+    public void setPedido(Pedido pedido) {
         id.setPedido(pedido);
     }
 
-    public Produto getProduto(){
+    public Produto getProduto() {
         return id.getProduto();
     }
 
-    public void SetProduto(Produto produto){
+    public void SetProduto(Produto produto) {
         id.setProduto(produto);
     }
 
+    public Double getSubTotal() {
+        return preco * quantidade;
+    }
 
     @Override
     public boolean equals(Object o) {
