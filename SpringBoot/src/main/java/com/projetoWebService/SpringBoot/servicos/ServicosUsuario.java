@@ -3,8 +3,11 @@ package com.projetoWebService.SpringBoot.servicos;
 import com.projetoWebService.SpringBoot.entidades.Usuario;
 import com.projetoWebService.SpringBoot.repositorios.RepositorioUsuario;
 
+import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoBancoDados;
 import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoRecursosNaoEncontrados;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 //import org.springframework.stereotype.Component;
 
@@ -33,7 +36,13 @@ public class ServicosUsuario {
     }
 
     public void delete(Long id ){
+        try{
         repositorio.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new ExecaoRecursosNaoEncontrados(id);
+        }catch (DataIntegrityViolationException e){
+            throw new ExecaoBancoDados(e.getMessage());
+        }
     }
 
     public Usuario update(long id, Usuario obj){

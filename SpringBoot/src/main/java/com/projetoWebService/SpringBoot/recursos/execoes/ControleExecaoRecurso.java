@@ -1,5 +1,6 @@
 package com.projetoWebService.SpringBoot.recursos.execoes;
 
+import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoBancoDados;
 import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoRecursosNaoEncontrados;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,14 @@ public class ControleExecaoRecurso {
     public ResponseEntity<ErroPadrao> recursoNaoEncontrado(ExecaoRecursosNaoEncontrados e, HttpServletRequest requisicao) {
         String erro = "Recurso não encontrado";
         HttpStatus status = HttpStatus.NOT_FOUND;
+        ErroPadrao er = new ErroPadrao(Instant.now(), status.value(), erro, e.getMessage(), requisicao.getRequestURI());
+        return ResponseEntity.status(status).body(er);
+    }
+
+    @ExceptionHandler(ExecaoBancoDados.class)
+    public ResponseEntity<ErroPadrao> database(ExecaoRecursosNaoEncontrados e, HttpServletRequest requisicao) {
+        String erro = "erro banco de dados";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         ErroPadrao er = new ErroPadrao(Instant.now(), status.value(), erro, e.getMessage(), requisicao.getRequestURI());
         return ResponseEntity.status(status).body(er);
     }
