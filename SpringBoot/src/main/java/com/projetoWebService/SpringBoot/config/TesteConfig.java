@@ -74,5 +74,9 @@ public class TesteConfig implements CommandLineRunner {
 
         repositorioItemPedido.saveAll(Arrays.asList(ip1, ip2, ip3, ip4));
 
+        Pagamento pag1 = new Pagamento(null, Instant.parse("2019-06-20T21:53:07Z"), p1);
+        p1.setPagamento(pag1);
+
+        repositorioPedido.save(p1);
     }
 }
