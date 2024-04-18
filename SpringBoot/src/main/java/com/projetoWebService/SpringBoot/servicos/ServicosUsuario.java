@@ -5,6 +5,7 @@ import com.projetoWebService.SpringBoot.repositorios.RepositorioUsuario;
 
 import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoBancoDados;
 import com.projetoWebService.SpringBoot.servicos.execoes.ExecaoRecursosNaoEncontrados;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,24 +32,28 @@ public class ServicosUsuario {
         return obj.orElseThrow(() -> new ExecaoRecursosNaoEncontrados(id));
     }
 
-    public Usuario insert(Usuario obj){
+    public Usuario insert(Usuario obj) {
         return repositorio.save(obj);
     }
 
-    public void delete(Long id ){
-        try{
-        repositorio.deleteById(id);
-        }catch (EmptyResultDataAccessException e){
+    public void delete(Long id) {
+        try {
+            repositorio.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new ExecaoRecursosNaoEncontrados(id);
-        }catch (DataIntegrityViolationException e){
+        } catch (DataIntegrityViolationException e) {
             throw new ExecaoBancoDados(e.getMessage());
         }
     }
 
-    public Usuario update(long id, Usuario obj){
-        Usuario entidade = repositorio.getReferenceById(id);
-        updateData(entidade, obj);
-        return repositorio.save(entidade);
+    public Usuario update(long id, Usuario obj) {
+        try {
+            Usuario entidade = repositorio.getReferenceById(id);
+            updateData(entidade, obj);
+            return repositorio.save(entidade);
+        } catch (EntityNotFoundException e){
+            throw new ExecaoRecursosNaoEncontrados(id);
+        }
     }
 
     private void updateData(Usuario entidade, Usuario obj) {
